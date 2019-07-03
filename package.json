@@ -2,7 +2,10 @@
   "name": "js-boilerplate",
   "version": "1.0.0",
   "description": "JavaScript development environment boilerplate",
-  "scripts": {},
+  "scripts": {
+    "prestart": "node buildScripts/startMessage.js",
+    "start": "node buildScripts/srcServer.js"
+  },
   "author": "Sebastian Reverso",
   "license": "MIT",
   "dependencies": {
