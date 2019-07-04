@@ -30,13 +30,14 @@ export default {
             presets: ['@babel/preset-env']
           }
         }
-      }/*,
+      },
       {
         test: /\.css$/,
-        use: {
-          loader: ['style','css']
-        }
-      }*/
+        use: [
+            {loader: "style-loader"},
+            {loader: "css-loader"}
+          ]
+      }
     ]
   }
 }
