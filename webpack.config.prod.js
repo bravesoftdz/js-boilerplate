@@ -1,11 +1,14 @@
 import path from 'path';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 export default {
   resolve: {
     extensions: ['*', '.js', '.jsx', '.json']
   },
+  //TODO: generate maps
   devtool: 'source-map',
   entry: {
     main: path.resolve(__dirname, 'src/index'),
@@ -20,7 +23,17 @@ export default {
     chunkFilename: "[name].[chunkhash].js"
   },
   optimization: {
-    minimizer: [new UglifyJsPlugin()],
+    minimizer: [
+      new UglifyJsPlugin(),
+      new OptimizeCSSAssetsPlugin({
+        assetNameRegExp: /\.optimize\.css$/g,
+        cssProcessor: require('cssnano'),
+        cssProcessorPluginOptions: {
+          preset: ['default', { discardComments: { removeAll: true } }],
+        },
+        canPrint: true
+      })
+    ],
     splitChunks: {
       cacheGroups: {
         test: /[\\/]node_modules[\\/]/,
@@ -46,7 +59,11 @@ export default {
         minifyURLs: true
       },
       inject: true
-    })
+    }),
+    new MiniCssExtractPlugin({
+      filename: "[name].[chunkhash].css",
+      chunkFilename: "[name].[chunkhash].css"
+    }),
   ],
   module: {
     rules: [
@@ -63,9 +80,15 @@ export default {
       {
         test: /\.css$/,
         use: [
-            {loader: "style-loader"},
-            {loader: "css-loader"}
-          ]
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              sourceMap: true
+            }
+          }
+        ]
       }
     ]
   }
