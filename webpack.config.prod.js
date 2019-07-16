@@ -1,5 +1,6 @@
 import path from 'path';
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 export default {
   resolve: {
@@ -16,12 +17,15 @@ export default {
     publicPath: '/',
     filename: 'bundle.js'
   },
-  devServer: {
-    contentBase: path.resolve(__dirname, 'src')
-  },
   optimization: {
     minimizer: [new UglifyJsPlugin()]
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'src/index.html',
+      inject: true
+    })
+  ],
   module: {
     rules: [
       {
