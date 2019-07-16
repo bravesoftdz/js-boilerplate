@@ -1,5 +1,5 @@
 import path from 'path';
-import webpack from 'webpack';
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 export default {
   resolve: {
@@ -19,12 +19,9 @@ export default {
   devServer: {
     contentBase: path.resolve(__dirname, 'src')
   },
-  plugins: [
-    // Eliminate duplicate package when generating bundle
-    new webpack.optimize.DedupePlugin(),
-    // Minify JS
-    new webpack.optimize.UgllifyJsPlugin()
-  ],
+  optimization: {
+    minimizer: [new UglifyJsPlugin()]
+  },
   module: {
     rules: [
       {

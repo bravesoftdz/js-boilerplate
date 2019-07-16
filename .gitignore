@@ -62,3 +62,9 @@ typings/
 
 # WebStorm settings
 .idea
+
+# Prod build
+dist/
+
+# Mock db
+db.json
