@@ -16,7 +16,8 @@ export default {
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
-    filename: '[name].js'
+    filename: "[name].[chunkhash].js",
+    chunkFilename: "[name].[chunkhash].js"
   },
   optimization: {
     minimizer: [new UglifyJsPlugin()],
