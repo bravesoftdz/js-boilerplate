@@ -8,7 +8,6 @@ export default {
   resolve: {
     extensions: ['*', '.js', '.jsx', '.json']
   },
-  //TODO: generate maps
   devtool: 'source-map',
   entry: {
     main: path.resolve(__dirname, 'src/index'),
@@ -24,7 +23,9 @@ export default {
   },
   optimization: {
     minimizer: [
-      new UglifyJsPlugin(),
+      new UglifyJsPlugin({
+        sourceMap: true
+      }),
       new OptimizeCSSAssetsPlugin({
         assetNameRegExp: /\.optimize\.css$/g,
         cssProcessor: require('cssnano'),
